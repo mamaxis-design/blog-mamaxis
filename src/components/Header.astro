@@ -1,0 +1,24 @@
+---
+import { getCategories } from '../lib/api';
+const categories = await getCategories();
+---
+
+<header class="bg-[#FAFAF8] border-b border-[#D6D3CE] sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-6 lg:px-10">
+    <div class="flex justify-center items-center py-5 border-b border-[#D6D3CE]">
+      <a href="/blog/">
+        <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain" />
+      </a>
+    </div>
+    <nav class="flex justify-center gap-8 md:gap-12 py-3.5">
+      {categories.map((cat: any) => (
+        <a
+          href={`/blog/category/${cat.id}`}
+          class="nav-item font-noto font-light text-base tracking-[0.08em] text-ink-muted pb-1"
+        >
+          {cat.name}
+        </a>
+      ))}
+    </nav>
+  </div>
+</header>

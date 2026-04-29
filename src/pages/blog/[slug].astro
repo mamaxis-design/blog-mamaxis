@@ -1,0 +1,193 @@
+---
+import { getPosts, getPostDetail } from '../../lib/api';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post: any) => ({
+    params: { slug: post.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await getPostDetail(slug!);
+const allPosts = await getPosts();
+
+const relatedPosts = allPosts
+  .filter((p: any) => p.id !== post.id)
+  .slice(0, 5);
+---
+
+<BaseLayout
+  title={`${post.metaTitle || post.title} — mamaxis DESIGN`}
+  description={post.metaDescription || post.excerpt}
+>
+
+  <style slot="head">
+    .article-body p { font-size: 1.125rem; line-height: 2.15; letter-spacing: 0.04em; margin-bottom: 1.75rem; color: #2a2a27; }
+    .article-body h2 { font-family: 'Shippori Mincho', serif; font-size: 1.5rem; font-weight: 500; letter-spacing: 0.06em; line-height: 1.7; margin-top: 3.5rem; margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 1px solid #A09E9A; color: #1C1C1A; }
+    .article-body h3 { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; font-weight: 500; letter-spacing: 0.05em; line-height: 1.75; margin-top: 2.5rem; margin-bottom: 0.875rem; color: #1C1C1A; }
+    .article-body blockquote { border-left: 2px solid rgb(255,165,77); margin: 2rem 0; padding: 1rem 1.5rem; background: rgba(255,165,77,0.06); font-style: italic; font-size: 1rem; line-height: 2; letter-spacing: 0.04em; color: #4a4a45; }
+    code { font-family: 'Courier New', monospace; font-size: 0.85em; background: rgba(255,165,77,0.1); color: #c47b1a; padding: 0.15em 0.45em; border-radius: 3px; }
+    @media (max-width: 1023px) { .sidebar-sticky { position: static; } }
+  </style>
+
+<!-- ── HERO（全ページ共通・固定） ── -->
+<section class="w-full relative overflow-hidden" style="height:300px;">
+  <img
+    src="/hero.JPG"
+    alt="mamaxis DESIGN hero"
+    class="w-full h-full object-cover"
+    style="object-position: center 40%;"
+  />
+  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.62) 0%, rgba(28,28,26,0.25) 60%, transparent 100%);"></div>
+  <div class="absolute inset-0 flex flex-col justify-center px-8 lg:px-16" style="max-width:680px;">
+    <p class="font-noto font-light text-[0.65rem] tracking-[0.25em] text-accent uppercase mb-3">mamaxis DESIGN</p>
+    <h1 class="font-mincho text-2xl lg:text-3xl text-white leading-relaxed tracking-wide mb-4">
+      旅と、コードと、<br>心地よいWebデザイン。
+    </h1>
+    <p class="font-noto font-light text-xs leading-loose tracking-wider text-white/75">
+      旅で研ぎ澄まされた感性をデザインに、Jamstackを確かな安心に。<br>
+      サイト制作の裏側から、私の心を動かす日常の一コマまで。
+    </p>
+  </div>
+</section>
+
+<!-- 記事本文エリア -->
+<div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 flex flex-col lg:flex-row gap-12">
+  <main class="w-full lg:w-[68%] flex flex-col" style="min-height: 100vh;">
+
+    <!-- メタ情報 -->
+    <div class="mb-6 flex items-center gap-3 flex-wrap">
+      <span class="font-noto text-[0.7rem] tracking-widest text-accent">
+        {post.category?.name ?? 'BLOG'}
+      </span>
+      <span class="text-ink-muted text-xs">·</span>
+      <span class="font-noto text-[0.7rem] text-ink-muted">
+        {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+      </span>
+      <span class="text-ink-muted text-xs">·</span>
+      <span class="font-noto text-[0.7rem] text-ink-muted">{post.readingTime}</span>
+    </div>
+
+    <!-- タイトル -->
+    <h1 class="font-mincho text-3xl leading-relaxed tracking-wide mb-4">{post.title}</h1>
+
+    <!-- タグ -->
+    {post.tags && (
+      <div class="flex gap-2 mb-8 flex-wrap">
+        {post.tags.split(',').map((tag: string) => (
+          <span class="font-noto text-[0.65rem] tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-0.5" style="border-radius:2px;">
+            {tag.trim()}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <!-- 本文 -->
+    <div class="article-body flex-1" set:html={post.content} />
+
+    <!-- Author Bio -->
+    <div class="mt-12 pt-8 border-t border-[#D6D3CE] flex flex-col sm:flex-row gap-6 items-start">
+      <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-20 h-20 rounded-full object-cover flex-shrink-0" style="object-position: center top;" />
+      <div>
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[200px] h-auto object-contain opacity-90 mb-2" />
+        <p class="font-noto font-light text-sm leading-loose tracking-wide text-ink-muted">
+          Jamstackを取り入れたWebサイト制作を行っております。Astro + microCMSを中心に、制作の記録や旅の断片をここに綴っています。
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Sidebar -->
+  <aside class="w-full lg:w-[30%] sidebar-sticky" style="top: 160px; position: sticky; align-self: flex-start;">
+    <div class="flex flex-col gap-8">
+
+      <!-- Profile -->
+      <div class="border border-[#D6D3CE] p-6" style="border-radius:2px;">
+        <span class="sb-label">Profile</span>
+        <div class="flex flex-col items-center text-center">
+          <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-16 h-16 rounded-full object-cover mb-3" style="object-position: center top;" />
+          <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[160px] h-auto mb-2 opacity-90" />
+          <p class="font-noto font-light text-xs leading-loose tracking-wide text-ink-muted">
+            Jamstackを取り入れたWebサイト制作を行っております。
+          </p>
+        </div>
+      </div>
+
+      <!-- Latest（他の記事・最大5件） -->
+      <div class="border border-[#D6D3CE] p-5" style="border-radius:2px;">
+        <span class="sb-label">Latest</span>
+        <div class="flex flex-col divide-y divide-[#D6D3CE]">
+          {relatedPosts.slice(0, 5).map((p: any) => (
+            <a href={`/blog/${p.slug}`} class="flex gap-3 items-start group py-3 first:pt-0 last:pb-0">
+              {p.eyecatch
+                ? <img src={p.eyecatch.url} alt={p.title} class="w-14 h-10 object-cover flex-shrink-0" style="border-radius:2px;" />
+                : <div class="w-14 h-10 bg-[#ede9e2] flex-shrink-0" style="border-radius:2px;"></div>
+              }
+              <div class="flex flex-col justify-center">
+                <span class="font-noto font-medium text-[0.65rem] tracking-widest text-accent block mb-0.5">
+                  {p.category?.name ?? 'BLOG'} · {p.readingTime}
+                </span>
+                <p class="font-mincho text-[0.8rem] leading-relaxed text-ink group-hover:text-accent transition-colors duration-200">
+                  {p.title}
+                </p>
+                <p class="font-noto text-[0.62rem] tracking-wider text-ink-muted mt-0.5">
+                  {new Date(p.publishedAt).toLocaleDateString('ja-JP')}
+                </p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Tags -->
+      {post.tags && (
+        <div class="border border-[#D6D3CE] p-5" style="border-radius:2px;">
+          <span class="sb-label">Tags</span>
+          <div class="flex flex-wrap gap-2">
+            {post.tags.split(',').map((tag: string) => (
+              <span class="font-noto text-[0.65rem] tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-1 hover:border-accent hover:text-accent transition-colors duration-200 cursor-pointer" style="border-radius:2px;">
+                {tag.trim()}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+    </div>
+  </aside>
+</div>
+
+<!-- RELATED -->
+{relatedPosts.length > 0 && (
+  <section class="border-t border-[#D6D3CE]">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12">
+      <span class="sb-label" style="display:inline-block; margin-bottom:1.5rem;">Related</span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {relatedPosts.map((p: any) => (
+          <a href={`/blog/${p.slug}`} class="group border border-[#D6D3CE] overflow-hidden hover:border-accent transition-colors duration-300" style="border-radius:2px;">
+            {p.eyecatch
+              ? <img src={p.eyecatch.url} alt={p.title} class="w-full object-cover" style="height:160px;" />
+              : <div class="w-full bg-[#ede9e2]" style="height:160px;"></div>
+            }
+            <div class="p-5">
+              <span class="font-noto font-medium text-[0.7rem] tracking-widest text-accent block mb-2">
+                {p.category?.name ?? 'BLOG'}
+              </span>
+              <p class="font-mincho text-sm leading-relaxed text-ink group-hover:text-accent transition-colors duration-300 tracking-wide">
+                {p.title}
+              </p>
+              <p class="font-noto font-light text-[0.7rem] tracking-wider text-ink-muted mt-3">
+                {new Date(p.publishedAt).toLocaleDateString('ja-JP')} · {p.readingTime}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+</BaseLayout>

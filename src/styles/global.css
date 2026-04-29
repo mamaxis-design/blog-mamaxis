@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-accent: rgb(255, 165, 77);
+  --color-accent-light: rgba(255, 165, 77, 0.12);
+  --color-paper: #FAFAF8;
+  --color-ink: #1C1C1A;
+  --color-ink-muted: #6B6B65;
+  --color-rule: #a09e9a;
+
+  --font-mincho: "Shippori Mincho", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-noto: "Noto Sans JP", sans-serif;
+}

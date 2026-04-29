@@ -1,0 +1,67 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Jamstackを取り入れたWebサイト制作の記録と、旅の断片を綴るブログ。' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            accent: 'rgb(255,165,77)',
+            paper: '#FAFAF8',
+            ink: '#1C1C1A',
+            'ink-muted': '#6B6B65',
+            rule: '#D6D3CE',
+          },
+          fontFamily: {
+            mincho: ['"Shippori Mincho"', 'serif'],
+            cormorant: ['"Cormorant Garamond"', 'serif'],
+            noto: ['"Noto Sans JP"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background-color: #FAFAF8; color: #1C1C1A; font-family: 'Shippori Mincho', serif; -webkit-font-smoothing: antialiased; }
+    .nav-item { position: relative; }
+    .nav-item::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1.5px; background: rgb(255,165,77); transition: width 0.25s ease; }
+    .nav-item:hover::after { width: 100%; }
+    .sb-label { font-family: 'Noto Sans JP', sans-serif; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgb(255,165,77); padding-bottom: 0.6rem; border-bottom: 0.5px solid #A09E9A; margin-bottom: 0.875rem; display: block; }
+    .card-img { transition: transform 0.5s ease; }
+    .card:hover .card-img { transform: scale(1.03); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #FAFAF8; }
+    ::-webkit-scrollbar-thumb { background: #A09E9A; border-radius: 10px; }
+  </style>
+  <slot name="head" />
+</head>
+<body>
+  <Header />
+<main>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

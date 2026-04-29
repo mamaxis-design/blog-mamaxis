@@ -1,0 +1,21 @@
+---
+import { getCategories } from '../lib/api';
+const categories = await getCategories();
+---
+
+<footer class="border-t border-[#D6D3CE] bg-[#FAFAF8] mt-16">
+  <div class="max-w-6xl mx-auto px-6 lg:px-10 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
+    <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[160px] h-auto opacity-90" />
+    <nav class="flex gap-6">
+      {categories.map((cat: any) => (
+        <a
+          href={`/blog/category/${cat.id}`}
+          class="font-noto font-light text-[0.85rem] tracking-wider text-ink-muted hover:text-accent transition-colors duration-200"
+        >
+          {cat.name}
+        </a>
+      ))}
+    </nav>
+    <p class="font-noto font-light text-[0.65rem] tracking-wider text-ink-muted">© 2026 mamaxis DESIGN All rights reserved.</p>
+  </div>
+</footer>
