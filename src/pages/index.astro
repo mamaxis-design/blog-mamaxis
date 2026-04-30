@@ -1,6 +1,6 @@
 ---
-import { getPosts } from '../../lib/api';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../lib/api';
+import BaseLayout from '../layouts/BaseLayout.astro';
 
 const posts = await getPosts();
 const hero = posts[0];
