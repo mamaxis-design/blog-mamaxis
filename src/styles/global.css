@@ -12,3 +12,41 @@
   --font-cormorant: "Cormorant Garamond", serif;
   --font-noto: "Noto Sans JP", sans-serif;
 }
+
+@layer base {
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 1.5rem;
+    margin-bottom: 1.6rem;
+  }
+
+  p {
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    color: var(--color-ink);
+  }
+
+  article {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+}
