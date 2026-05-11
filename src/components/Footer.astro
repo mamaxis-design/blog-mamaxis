@@ -10,12 +10,12 @@ const categories = await getCategories();
       {categories.map((cat: any) => (
         <a
           href={`/blog/category/${cat.id}`}
-          class="font-noto font-light text-[0.85rem] tracking-wider text-ink-muted hover:text-accent transition-colors duration-200"
+          class="font-josefin font-400 text-xs tracking-[0.18em] text-ink-muted hover:text-accent transition-colors duration-200 uppercase"
         >
           {cat.name}
         </a>
       ))}
     </nav>
-    <p class="font-noto font-light text-[0.65rem] tracking-wider text-ink-muted">© 2026 mamaxis DESIGN All rights reserved.</p>
+    <p class="font-josefin font-300 text-[0.65rem] tracking-[0.12em] text-ink-muted">© 2026 mamaxis DESIGN All rights reserved.</p>
   </div>
 </footer>

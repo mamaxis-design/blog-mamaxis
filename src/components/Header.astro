@@ -5,20 +5,81 @@ const categories = await getCategories();
 
 <header class="bg-[#FAFAF8] border-b border-[#D6D3CE] sticky top-0 z-50">
   <div class="max-w-6xl mx-auto px-6 lg:px-10">
-    <div class="flex justify-center items-center py-5 border-b border-[#D6D3CE]">
+
+    <!-- ロゴ行 -->
+    <div class="flex items-center justify-between py-4 md:py-5 border-b border-[#D6D3CE] md:justify-center">
+
+      <!-- ロゴ -->
       <a href="/blog/">
-        <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain" />
+        <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain hidden md:block" />
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="opacity-90 object-contain block md:hidden" style="height:25px; width:auto;" />
       </a>
+
+      <!-- ハンバーガーボタン（モバイルのみ） -->
+      <button
+        id="hamburger"
+        class="md:hidden flex flex-col justify-center gap-[5px] w-6 h-6 flex-shrink-0"
+        aria-label="メニューを開く"
+        aria-expanded="false"
+      >
+        <span class="hamburger-line block w-full h-[1.5px] bg-ink transition-all duration-300 origin-center"></span>
+        <span class="hamburger-line block w-full h-[1.5px] bg-ink transition-all duration-300 origin-center"></span>
+        <span class="hamburger-line block w-full h-[1.5px] bg-ink transition-all duration-300 origin-center"></span>
+      </button>
     </div>
-    <nav class="flex justify-center gap-8 md:gap-12 py-3.5">
+
+    <!-- PC用ナビ（md以上で表示） -->
+    <nav class="hidden md:flex justify-center gap-8 md:gap-12 py-3.5">
       {categories.map((cat: any) => (
         <a
           href={`/blog/category/${cat.id}`}
-          class="nav-item font-noto font-light text-base tracking-[0.08em] text-ink-muted pb-1"
+          class="nav-item font-josefin font-600 text-sm tracking-[0.18em] text-ink-muted pb-1 uppercase"
         >
           {cat.name}
         </a>
       ))}
     </nav>
+
+    <!-- モバイル用ドロワーナビ -->
+    <nav
+      id="mobile-nav"
+      class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
+    >
+      <div class="flex flex-col py-2 border-t border-[#D6D3CE]">
+        {categories.map((cat: any) => (
+          <a
+            href={`/blog/category/${cat.id}`}
+            class="font-josefin font-semibold text-sm tracking-[0.18em] text-ink-muted py-3 hover:text-accent transition-colors duration-200 uppercase"
+          >
+            {cat.name}
+          </a>
+        ))}
+      </div>
+    </nav>
+
   </div>
 </header>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileNav = document.getElementById('mobile-nav');
+  const lines = hamburger?.querySelectorAll('.hamburger-line');
+
+  hamburger?.addEventListener('click', () => {
+    const isOpen = hamburger.getAttribute('aria-expanded') === 'true';
+
+    if (isOpen) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav!.style.maxHeight = '0';
+      lines?.[0].removeAttribute('style');
+      lines?.[1].removeAttribute('style');
+      lines?.[2].removeAttribute('style');
+    } else {
+      hamburger.setAttribute('aria-expanded', 'true');
+      mobileNav!.style.maxHeight = mobileNav!.scrollHeight + 'px';
+      (lines?.[0] as HTMLElement).style.cssText = 'transform: translateY(6.5px) rotate(45deg)';
+      (lines?.[1] as HTMLElement).style.cssText = 'opacity: 0';
+      (lines?.[2] as HTMLElement).style.cssText = 'transform: translateY(-6.5px) rotate(-45deg)';
+    }
+  });
+</script>

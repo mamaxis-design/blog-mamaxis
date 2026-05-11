@@ -15,7 +15,7 @@ const microfetch = async (path: string, params?: Record<string, string>) => {
 export const getPosts = async () => {
   const data = await microfetch("/posts", {
     limit: "100",
-    orders: "-publishedAt",
+    orders: "-publishedDate",
     depth: "2",
   });
   return data.contents;

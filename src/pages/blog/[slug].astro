@@ -40,16 +40,18 @@ const relatedPosts = allPosts
     class="w-full h-full object-cover"
     style="object-position: center 40%;"
   />
-  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.62) 0%, rgba(28,28,26,0.25) 60%, transparent 100%);"></div>
-  <div class="absolute inset-0 flex flex-col justify-center px-8 lg:px-16" style="max-width:680px;">
-    <p class="font-noto font-light text-[0.65rem] tracking-[0.25em] text-accent uppercase mb-3">mamaxis DESIGN</p>
-    <h1 class="font-mincho text-2xl lg:text-3xl text-white leading-relaxed tracking-wide mb-4">
-      旅と、コードと、<br>心地よいWebデザイン。
-    </h1>
-    <p class="font-noto font-light text-xs leading-loose tracking-wider text-white/75">
-      旅で研ぎ澄まされた感性をデザインに、Jamstackを確かな安心に。<br>
-      サイト制作の裏側から、私の心を動かす日常の一コマまで。
-    </p>
+  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.68) 0%, rgba(28,28,26,0.35) 60%, transparent 100%);"></div>
+  <div class="absolute inset-0 flex flex-col justify-center">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10 w-full">
+      <p class="font-noto font-medium tracking-[0.25em] text-accent uppercase mb-3" style="font-size: clamp(0.65rem, 1.2vw, 0.75rem);">mamaxis DESIGN</p>
+      <h1 class="font-mincho text-white leading-snug tracking-wide mb-4" style="font-size: clamp(1.1rem, 3.5vw, 1.875rem);">
+        旅と、コードと、<br>心地よいWebデザイン。
+      </h1>
+      <p class="font-noto font-normal tracking-wider text-white/85" style="font-size: clamp(0.75rem, 1.6vw, 0.875rem); line-height: 1.85;">
+        旅で研ぎ澄まされた感性をデザインに、Jamstackを確かな安心に。<br>
+        サイト制作の裏側から、私の心を動かす日常の一コマまで。
+      </p>
+    </div>
   </div>
 </section>
 
@@ -64,7 +66,7 @@ const relatedPosts = allPosts
       </span>
       <span class="text-ink-muted text-xs">·</span>
       <span class="font-noto text-[0.7rem] text-ink-muted">
-        {new Date(post.publishedAt).toLocaleDateString('ja-JP')}
+        {new Date(post.publishedDate).toLocaleDateString('ja-JP')}
       </span>
       <span class="text-ink-muted text-xs">·</span>
       <span class="font-noto text-[0.7rem] text-ink-muted">{post.readingTime}</span>
@@ -92,7 +94,7 @@ const relatedPosts = allPosts
       <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-20 h-20 rounded-full object-cover flex-shrink-0" style="object-position: center top;" />
       <div>
         <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[200px] h-auto object-contain opacity-90 mb-2" />
-        <p class="font-noto font-light text-sm leading-loose tracking-wide text-ink-muted">
+        <p class="font-noto font-normal text-sm leading-loose tracking-wide text-ink-muted">
           Jamstackを取り入れたWebサイト制作を行っております。Astro + microCMSを中心に、制作の記録や旅の断片をここに綴っています。
         </p>
       </div>
@@ -109,8 +111,8 @@ const relatedPosts = allPosts
         <span class="sb-label">Profile</span>
         <div class="flex flex-col items-center text-center">
           <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-16 h-16 rounded-full object-cover mb-3" style="object-position: center top;" />
-          <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[160px] h-auto mb-2 opacity-90" />
-          <p class="font-noto font-light text-xs leading-loose tracking-wide text-ink-muted">
+          <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[190px] h-auto mb-2 opacity-90" />
+          <p class="font-noto font-normal text-sm leading-loose tracking-wide text-ink-muted mb-0 text-left w-full">
             Jamstackを取り入れたWebサイト制作を行っております。
           </p>
         </div>
@@ -127,13 +129,13 @@ const relatedPosts = allPosts
                 : <div class="w-14 h-10 bg-[#ede9e2] flex-shrink-0" style="border-radius:2px;"></div>
               }
               <div class="flex flex-col justify-center">
-                <span class="font-noto font-medium text-[0.65rem] tracking-widest text-accent block mb-0.5">
+                <span class="font-noto font-medium text-xs tracking-widest text-accent block mb-0.5">
                   {p.category?.name ?? 'BLOG'} · {p.readingTime}
                 </span>
-                <p class="font-mincho text-[0.8rem] leading-relaxed text-ink group-hover:text-accent transition-colors duration-200">
+                <p class="font-mincho text-sm leading-relaxed text-ink group-hover:text-accent transition-colors duration-200 mb-0">
                   {p.title}
                 </p>
-                <p class="font-noto text-[0.62rem] tracking-wider text-ink-muted mt-0.5">
+                <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-0.5 mb-0">
                   {new Date(p.publishedAt).toLocaleDateString('ja-JP')}
                 </p>
               </div>
@@ -148,7 +150,7 @@ const relatedPosts = allPosts
           <span class="sb-label">Tags</span>
           <div class="flex flex-wrap gap-2">
             {post.tags.split(',').map((tag: string) => (
-              <span class="font-noto text-[0.65rem] tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-1 hover:border-accent hover:text-accent transition-colors duration-200 cursor-pointer" style="border-radius:2px;">
+              <span class="font-noto font-normal text-xs tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-1 hover:border-accent hover:text-accent transition-colors duration-200 cursor-pointer" style="border-radius:2px;">
                 {tag.trim()}
               </span>
             ))}
@@ -176,11 +178,11 @@ const relatedPosts = allPosts
               <span class="font-noto font-medium text-[0.7rem] tracking-widest text-accent block mb-2">
                 {p.category?.name ?? 'BLOG'}
               </span>
-              <p class="font-mincho text-sm leading-relaxed text-ink group-hover:text-accent transition-colors duration-300 tracking-wide">
+              <p class="font-mincho text-base leading-relaxed text-ink group-hover:text-accent transition-colors duration-300 tracking-wide">
                 {p.title}
               </p>
-              <p class="font-noto font-light text-[0.7rem] tracking-wider text-ink-muted mt-3">
-                {new Date(p.publishedAt).toLocaleDateString('ja-JP')} · {p.readingTime}
+              <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-3">
+                {new Date(p.publishedDate).toLocaleDateString('ja-JP')} · {p.readingTime}
               </p>
             </div>
           </a>
