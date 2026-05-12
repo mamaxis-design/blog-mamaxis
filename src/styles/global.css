@@ -88,3 +88,65 @@ aside .sb-label {
   margin-bottom: 0.75rem;
   line-height: 2.1;
 }
+
+@layer components {
+  .article-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+  }
+
+  .article-body th,
+  .article-body td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+
+  .article-body th {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    text-transform: none; /* 大文字化を解除 */
+  }
+
+  .article-body tr:nth-child(even) {
+    background-color: transparent; /* 偶数行の背景色を透明に */
+  }
+
+  .article-body tr:hover {
+    background-color: transparent; /* ホバーエフェクトを透明に */
+  }
+
+  /* 丸い角のスタイルを削除 */
+  .article-body table thead tr th:first-child {
+    border-top-left-radius: 0;
+  }
+
+  .article-body table thead tr th:last-child {
+    border-top-right-radius: 0;
+  }
+
+  .article-body table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 0;
+  }
+
+  .article-body table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 0;
+  }
+
+/* src/styles/global.css の @layer components ブロック内 */
+
+.article-body table p {
+  margin-bottom: 0;
+  line-height: 1.5; /* ここを1.5に変更 */
+  font-size: 1.0em; /* フォントサイズを少し小さく */
+}
+
+/* 他のテーブル要素のフォントサイズも調整する場合 */
+.article-body table th,
+.article-body table td {
+  font-size: 0.9em; /* thとtdのフォントサイズも少し小さく */
+  padding: 15px 8px; /* パディングも少し調整 */
+}
+}
