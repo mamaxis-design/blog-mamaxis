@@ -12,8 +12,21 @@ const listPosts = posts.slice(0, 8);
   description="Jamstackを取り入れたWebサイト制作の記録と、旅の断片を綴るブログ。"
 >
 
+<style>
+    /* デスクトップ版のデフォルトの高さ */
+    .hero-section {
+      height: 550px;
+    }
+    /* スマートフォン向け：768px未満の画面幅で適用 */
+    @media (max-width: 767px) {
+      .hero-section {
+        height: 300px; /* スマートフォンでの高さを300pxに設定 */
+      }
+    }
+  </style>
+
 <!-- ── HERO（全ページ共通・固定） ── -->
-<section class="w-full relative overflow-hidden" style="height:300px;">
+  <section class="w-full relative overflow-hidden hero-section">
   <img
     src="/hero.JPG"
     alt="mamaxis DESIGN hero"

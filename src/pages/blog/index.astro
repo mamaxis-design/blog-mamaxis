@@ -12,8 +12,21 @@ const listPosts = posts.slice(0, 8);
   description="Jamstackを取り入れたWebサイト制作の記録と、旅の断片を綴るブログ。"
 >
 
+<style>
+    /* デスクトップ版のデフォルトの高さ */
+    .hero-section {
+      height: 550px;
+    }
+    /* スマートフォン向け：768px未満の画面幅で適用 */
+    @media (max-width: 767px) {
+      .hero-section {
+        height: 300px; /* スマートフォンでの高さを300pxに設定 */
+      }
+    }
+  </style>
+
 <!-- ── HERO（全ページ共通・固定） ── -->
-<section class="w-full relative overflow-hidden" style="height:300px;">
+  <section class="w-full relative overflow-hidden hero-section">
   <img
     src="/hero.JPG"
     alt="mamaxis DESIGN hero"
@@ -23,8 +36,8 @@ const listPosts = posts.slice(0, 8);
   <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.68) 0%, rgba(28,28,26,0.35) 60%, transparent 100%);"></div>
   <div class="absolute inset-0 flex flex-col justify-center">
     <div class="max-w-6xl mx-auto px-6 lg:px-10 w-full">
-      <p class="font-noto font-medium tracking-[0.25em] text-accent uppercase mb-3" style="font-size: clamp(0.65rem, 1.2vw, 0.75rem);">mamaxis DESIGN</p>
-      <h1 class="font-mincho text-white leading-snug tracking-wide mb-4" style="font-size: clamp(1.1rem, 3.5vw, 1.875rem);">
+      <p class="font-noto font-medium tracking-[0.25em] text-accent uppercase mb-3" style="font-size: clamp(0.65rem, 1.2vw, 0.75rem);">mamaxis DESIGN — Blog</p>
+      <h1 class="font-mincho text-white leading-snug tracking-wide my-8" style="font-size: clamp(1.1rem, 3.5vw, 1.875rem);">
         旅と、コードと、<br>心地よいWebデザイン。
       </h1>
       <p class="font-noto font-normal tracking-wider text-white/85" style="font-size: clamp(0.75rem, 1.6vw, 0.875rem); line-height: 1.85;">
