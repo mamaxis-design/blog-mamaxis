@@ -3,16 +3,16 @@ import { getCategories } from '../lib/api';
 const categories = await getCategories();
 ---
 
-<header class="bg-[#FAFAF8] border-b border-[#D6D3CE] sticky top-0 z-50">
+<header class="bg-[#FAFAF8] border-b-0 md:border-b md:border-[#D6D3CE] sticky top-0 z-50">
   <div class="max-w-6xl mx-auto px-6 lg:px-10">
 
-    <!-- ロゴ行 -->
-    <div class="flex items-center justify-between py-4 md:py-5 border-b border-[#D6D3CE] md:justify-center">
+    <!-- ロゴ行（モバイル・メニュー閉時は下線なし / PC はナビとの区切り線） -->
+    <div class="flex items-center justify-between py-4 md:py-5 border-b-0 md:border-b md:border-[#D6D3CE] md:justify-center">
 
       <!-- ロゴ -->
       <a href="/blog/">
         <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain hidden md:block" />
-        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="opacity-90 object-contain block md:hidden" style="height:25px; width:auto;" />
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="opacity-90 object-contain block md:hidden" style="height:20px; width:auto;" />
       </a>
 
       <!-- ハンバーガーボタン（モバイルのみ） -->
@@ -45,7 +45,7 @@ const categories = await getCategories();
       id="mobile-nav"
       class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
     >
-      <div class="flex flex-col py-2 border-t border-[#D6D3CE]">
+      <div class="flex flex-col border-t border-[#D6D3CE] divide-y divide-[#D6D3CE]">
         {categories.map((cat: any) => (
           <a
             href={`/blog/category/${cat.id}`}
@@ -54,6 +54,16 @@ const categories = await getCategories();
             {cat.name}
           </a>
         ))}
+        <div class="py-4 w-full px-4">
+          <a
+            href="https://mamaxis-design.com/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="font-noto text-xs tracking-widest px-4 py-2.5 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-200 block w-full text-center" style="border-radius:2px;"
+          >
+            お問い合わせ
+          </a>
+        </div>
       </div>
     </nav>
 
