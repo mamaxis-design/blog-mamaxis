@@ -1,6 +1,7 @@
 ---
 import { getPosts, getCategories } from '../../../lib/api';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Hero from '../../../components/Hero.astro';
 export async function getStaticPaths() {
   const categories = await getCategories();
   return categories.map((cat: any) => ({
@@ -18,28 +19,7 @@ const rest = posts.slice(2, 6);
 <BaseLayout title={`${category.name} — mamaxis DESIGN`} description={`${category.name}カテゴリの記事一覧`}>
 
 
-<!-- HERO -->
-<section class="w-full relative overflow-hidden" style="height:300px;">
-  <img src="/hero.JPG" alt="mamaxis DESIGN hero" class="w-full h-full object-cover" style="object-position: center 50%;" />
-  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.68) 0%, rgba(28,28,26,0.35) 60%, transparent 100%);"></div>
-  <div class="absolute inset-0 flex flex-col justify-center">
-    <div class="max-w-6xl mx-auto px-6 lg:px-10 w-full">
-      <p class="font-noto font-medium tracking-[0.25em] text-accent uppercase mb-3" style="font-size: clamp(0.65rem, 1.2vw, 0.75rem);">mamaxis DESIGN</p>
-      <h1 class="font-mincho text-white leading-snug tracking-wide mb-4" style="font-size: clamp(1.1rem, 3.5vw, 1.875rem);">
-        旅と、コードと、<br>心地よいWebデザイン。
-      </h1>
-      <p class="font-noto font-normal tracking-wider text-white/85" style="font-size: clamp(0.75rem, 1.6vw, 0.875rem); line-height: 1.85;">
-        <span class="hidden md:inline">旅で研ぎ澄まされた感性をデザインに、Jamstackを確かな安心に。</span>
-        <span class="md:hidden block">旅で研ぎ澄まされた感性をデザインに、</span>
-        <span class="md:hidden block">Jamstackを確かな安心に。</span>
-        <br class="hidden md:block" />
-        <span class="hidden md:inline">サイト制作の裏側から、私の心を動かす日常の一コマまで。</span>
-        <span class="md:hidden block">サイト制作の裏側から、</span>
-        <span class="md:hidden block">私の心を動かす日常の一コマまで。</span>
-      </p>
-    </div>
-  </div>
-</section>
+<Hero />
 
 <!-- カテゴリ見出し -->
 <div class="max-w-6xl mx-auto px-6 lg:px-10 mt-10 mb-2 flex items-center gap-4">

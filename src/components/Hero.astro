@@ -1,0 +1,86 @@
+---
+interface Props {
+  label?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+}
+
+const {
+  label = 'mamaxis DESIGN',
+  imageSrc = '/hero.JPG',
+  imageAlt = 'mamaxis DESIGN hero',
+} = Astro.props;
+---
+
+<style>
+  .hero-section {
+    height: 550px;
+  }
+
+  .hero-label {
+    font-size: clamp(0.75rem, 1.4vw, 0.875rem);
+  }
+
+  .hero-title {
+    font-size: clamp(1.75rem, 2.8vw + 0.75rem, 2.75rem);
+  }
+
+  .hero-desc {
+    font-size: clamp(0.875rem, 1.2vw + 0.5rem, 1.0625rem);
+    line-height: 1.85;
+  }
+
+  @media (max-width: 767px) {
+    .hero-section {
+      height: 300px;
+    }
+
+    .hero-content {
+      justify-content: flex-start;
+      padding-top: 2.5rem;
+      padding-bottom: 1rem;
+    }
+
+    .hero-label {
+      font-size: 0.625rem;
+      margin-bottom: 0.375rem;
+    }
+
+    .hero-title {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-desc {
+      font-size: clamp(0.75rem, 3.2vw, 0.875rem);
+      line-height: 1.75;
+    }
+  }
+</style>
+
+<section class="w-full relative overflow-hidden hero-section">
+  <img
+    src={imageSrc}
+    alt={imageAlt}
+    class="w-full h-full object-cover"
+    style="object-position: center 50%;"
+  />
+  <div class="absolute inset-0" style="background: linear-gradient(to right, rgba(28,28,26,0.68) 0%, rgba(28,28,26,0.35) 60%, transparent 100%);"></div>
+  <div class="absolute inset-0 flex flex-col justify-center hero-content">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10 w-full">
+      <p class="hero-label font-noto font-medium tracking-[0.25em] text-accent uppercase mb-3">{label}</p>
+      <h1 class="hero-title font-mincho text-white leading-snug tracking-wide mb-4 pt-0">
+        旅と、コードと、<br>心地よいWebデザイン。
+      </h1>
+      <p class="hero-desc font-noto font-normal tracking-wider text-white/85">
+        <span class="hidden md:inline">旅で研ぎ澄まされた感性をデザインに、Jamstackを確かな安心に。</span>
+        <span class="md:hidden block">旅で研ぎ澄まされた感性をデザインに、</span>
+        <span class="md:hidden block">Jamstackを確かな安心に。</span>
+        <br class="hidden md:block" />
+        <span class="hidden md:inline">サイト制作の裏側から、私の心を動かす日常の一コマまで。</span>
+        <span class="md:hidden block">サイト制作の裏側から、</span>
+        <span class="md:hidden block">私の心を動かす日常の一コマまで。</span>
+      </p>
+    </div>
+  </div>
+</section>

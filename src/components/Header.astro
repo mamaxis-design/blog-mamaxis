@@ -3,7 +3,7 @@ import { getCategories } from '../lib/api';
 const categories = await getCategories();
 ---
 
-<header class="bg-[#FAFAF8] border-b-0 md:border-b md:border-[#D6D3CE] sticky top-0 z-50">
+<header class="bg-[#FAFAF8] border-b-0 md:border-b md:border-[#D6D3CE] sticky top-0 z-50 relative">
   <div class="max-w-6xl mx-auto px-6 lg:px-10">
 
     <!-- ロゴ行（モバイル・メニュー閉時は下線なし / PC はナビとの区切り線） -->
@@ -40,12 +40,15 @@ const categories = await getCategories();
       ))}
     </nav>
 
-    <!-- モバイル用ドロワーナビ -->
-    <nav
-      id="mobile-nav"
-      class="md:hidden overflow-hidden max-h-0 transition-all duration-300 ease-in-out"
-    >
-      <div class="flex flex-col border-t border-[#D6D3CE] divide-y divide-[#D6D3CE]">
+  </div>
+
+  <!-- モバイル用ドロワーナビ（absolute配置でヒーローを押し下げない） -->
+  <nav
+    id="mobile-nav"
+    class="md:hidden absolute top-full left-0 right-0 bg-[#FAFAF8] overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-[#D6D3CE] shadow-sm z-50"
+  >
+    <div class="max-w-6xl mx-auto px-6 lg:px-10">
+      <div class="flex flex-col divide-y divide-[#D6D3CE]">
         {categories.map((cat: any) => (
           <a
             href={`/blog/category/${cat.id}`}
@@ -65,9 +68,8 @@ const categories = await getCategories();
           </a>
         </div>
       </div>
-    </nav>
-
-  </div>
+    </div>
+  </nav>
 </header>
 
 <script>
