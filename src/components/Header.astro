@@ -3,16 +3,12 @@ import { getCategories } from '../lib/api';
 const categories = await getCategories();
 ---
 
-<header class="bg-[#FAFAF8] border-b-0 md:border-b md:border-[#D6D3CE] sticky top-0 z-50 relative">
+<header class="bg-paper border-b-0 md:border-b md:border-rule sticky top-0 z-50 relative">
   <div class="max-w-6xl mx-auto px-6 lg:px-10">
-
-    <!-- ロゴ行（モバイル・メニュー閉時は下線なし / PC はナビとの区切り線） -->
-    <div class="flex items-center justify-between py-4 md:py-5 border-b-0 md:border-b md:border-[#D6D3CE] md:justify-center">
-
-      <!-- ロゴ -->
+    <div class="flex items-center justify-between py-4 md:py-5 border-b-0 md:border-b md:border-rule md:justify-center">
       <a href="/blog/">
         <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain hidden md:block" />
-        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="opacity-90 object-contain block md:hidden" style="height:20px; width:auto;" />
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="h-5 w-auto opacity-90 object-contain block md:hidden" />
       </a>
 
       <!-- ハンバーガーボタン（モバイルのみ） -->
@@ -30,7 +26,7 @@ const categories = await getCategories();
 
     <!-- PC用ナビ（md以上で表示） -->
     <nav class="hidden md:flex justify-center gap-8 md:gap-12 py-3.5">
-      {categories.map((cat: any) => (
+      {categories.map((cat) => (
         <a
           href={`/blog/category/${cat.id}`}
           class="nav-item font-josefin font-600 text-sm tracking-[0.18em] text-ink-muted pb-1 uppercase"
@@ -45,11 +41,11 @@ const categories = await getCategories();
   <!-- モバイル用ドロワーナビ（absolute配置でヒーローを押し下げない） -->
   <nav
     id="mobile-nav"
-    class="md:hidden absolute top-full left-0 right-0 bg-[#FAFAF8] overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-[#D6D3CE] shadow-sm z-50"
+    class="md:hidden absolute top-full left-0 right-0 bg-paper overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-rule shadow-sm z-50"
   >
     <div class="max-w-6xl mx-auto px-6 lg:px-10">
-      <div class="flex flex-col divide-y divide-[#D6D3CE]">
-        {categories.map((cat: any) => (
+      <div class="flex flex-col divide-y divide-rule">
+        {categories.map((cat) => (
           <a
             href={`/blog/category/${cat.id}`}
             class="font-josefin font-semibold text-sm tracking-[0.18em] text-ink-muted py-3 hover:text-accent transition-colors duration-200 uppercase"
@@ -62,7 +58,7 @@ const categories = await getCategories();
             href="https://mamaxis-design.com/contact"
             target="_blank"
             rel="noopener noreferrer"
-            class="font-noto text-xs tracking-widest px-4 py-2.5 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-200 block w-full text-center" style="border-radius:2px;"
+            class="btn-outline-accent block w-full text-center py-2.5"
           >
             お問い合わせ
           </a>

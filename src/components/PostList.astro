@@ -1,0 +1,35 @@
+---
+import type { Post } from '../types/microcms';
+import PostCard from './PostCard.astro';
+import ScrollReveal from './ScrollReveal.astro';
+
+interface Props {
+  posts: Post[];
+  emptyMessage?: string;
+  reveal?: boolean;
+}
+
+const {
+  posts,
+  emptyMessage = 'まだ記事がありません',
+  reveal = true,
+} = Astro.props;
+
+const listPosts = posts.slice(0, 8);
+---
+
+{listPosts.length > 0 ? (
+  <section class="max-w-6xl mx-auto px-6 lg:px-10 mt-10 pb-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {listPosts.map((post, index) => (
+        <PostCard post={post} index={index} reveal={reveal} />
+      ))}
+    </div>
+  </section>
+) : (
+  <div class="max-w-6xl mx-auto px-6 lg:px-10 py-24 text-center">
+    <p class="font-mincho text-xl text-ink-muted tracking-wide">{emptyMessage}</p>
+  </div>
+)}
+
+{reveal && listPosts.length > 0 && <ScrollReveal />}

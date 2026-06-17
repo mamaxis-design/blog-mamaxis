@@ -1,0 +1,92 @@
+---
+import type { Post } from '../types/microcms';
+import { imageSizes, optimizeMicroCmsImageUrl } from '../lib/images';
+
+type CardVariant = 'default' | 'compact' | 'related';
+
+interface Props {
+  post: Post;
+  index?: number;
+  variant?: CardVariant;
+  reveal?: boolean;
+}
+
+const { post, index = 0, variant = 'default', reveal = false } = Astro.props;
+
+const imageHeights: Record<CardVariant, number> = {
+  default: 240,
+  compact: 180,
+  related: 160,
+};
+
+const imageSize = variant === 'compact' || variant === 'related'
+  ? imageSizes.cardSmall
+  : imageSizes.card;
+
+const eyecatchSrc = post.eyecatch
+  ? optimizeMicroCmsImageUrl(post.eyecatch.url, imageSize)
+  : null;
+
+const revealDelay = `${index * 100}ms`;
+const cardClasses = [
+  'card group relative block overflow-hidden rounded-sm',
+  reveal ? 'reveal-card' : '',
+].filter(Boolean).join(' ');
+---
+
+<a
+  href={`/blog/${post.slug}`}
+  class={cardClasses}
+  style={reveal ? `--reveal-delay: ${revealDelay};` : undefined}
+>
+  <div class="overflow-hidden" style={`height:${imageHeights[variant]}px;`}>
+    {eyecatchSrc
+      ? <img src={eyecatchSrc} alt={post.title} class="card-img w-full h-full object-cover" loading="lazy" decoding="async" />
+      : <div class="w-full h-full bg-[#ede9e2]"></div>
+    }
+  </div>
+
+  {variant === 'related' ? (
+    <div class="p-5">
+      <span class="font-noto font-medium text-[0.7rem] tracking-widest text-accent block mb-2">
+        {post.category?.name ?? 'BLOG'}
+      </span>
+      <p class="font-mincho text-base leading-relaxed text-ink group-hover:text-accent transition-colors duration-300 tracking-wide">
+        {post.title}
+      </p>
+      <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-3">
+        {new Date(post.publishedDate).toLocaleDateString('ja-JP')} · {post.readingTime}
+      </p>
+    </div>
+  ) : (
+    <div class={variant === 'compact' ? 'p-5' : 'p-6'}>
+      <div class={`flex items-center gap-2 ${variant === 'compact' ? 'mb-2' : 'mb-3'}`}>
+        <span class="font-noto font-normal text-xs tracking-[0.18em] text-accent uppercase">
+          {post.category?.name ?? 'Blog'}
+        </span>
+        <span class="text-rule text-xs">·</span>
+        <span class="font-noto font-normal text-xs tracking-wider text-ink-muted">
+          {new Date(post.publishedDate).toLocaleDateString('ja-JP')}
+        </span>
+      </div>
+      <h3 class={`font-mincho leading-relaxed tracking-wide text-ink group-hover:text-accent transition-colors duration-300 ${
+        variant === 'compact' ? 'text-base' : 'text-xl mb-2'
+      }`}>
+        {post.title}
+      </h3>
+      {variant === 'default' && post.excerpt && (
+        <p class="font-noto font-normal text-sm leading-relaxed text-ink-muted line-clamp-2">
+          {post.excerpt}
+        </p>
+      )}
+      <p class={`font-noto font-normal text-xs tracking-wider text-ink-muted ${variant === 'compact' ? 'mt-2' : 'mt-3'}`}>
+        {post.readingTime}
+      </p>
+    </div>
+  )}
+
+  <span
+    class="pointer-events-none absolute bottom-0 left-1/2 h-[1.5px] w-0 -translate-x-1/2 bg-accent opacity-0 transition-all duration-300 ease-out group-hover:w-[calc(100%-3rem)] group-hover:opacity-100"
+    aria-hidden="true"
+  ></span>
+</a>

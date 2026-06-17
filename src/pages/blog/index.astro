@@ -2,64 +2,15 @@
 import { getPosts } from '../../lib/api';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
+import PostList from '../../components/PostList.astro';
 
 const posts = await getPosts();
-/** ブログ一覧は常に最新から最大8件・同一2カラムカード */
-const listPosts = posts.slice(0, 8);
 ---
 
 <BaseLayout
   title="mamaxis DESIGN — Blog"
   description="Jamstackを取り入れたWebサイト制作の記録と、旅の断片を綴るブログ。"
 >
-
-<Hero label="mamaxis DESIGN — Blog" />
-
-<!-- ── 記事一覧（最大8件・2カラム・同一カードデザイン） ── -->
-{listPosts.length > 0 && (
-  <section class="max-w-6xl mx-auto px-6 lg:px-10 mt-10 pb-4">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {listPosts.map((post: any) => (
-        <a href={`/blog/${post.slug}`} class="card group block border border-[#D6D3CE] overflow-hidden hover:border-accent transition-colors duration-300" style="border-radius:2px;">
-          <div class="overflow-hidden" style="height:240px;">
-            {post.eyecatch
-              ? <img src={`${post.eyecatch.url}?w=800&q=80`} alt={post.title} class="card-img w-full h-full object-cover" />
-              : <div class="w-full h-full bg-[#ede9e2]"></div>
-            }
-          </div>
-          <div class="p-6">
-            <div class="flex items-center gap-2 mb-3">
-              <span class="font-noto font-normal text-xs tracking-[0.18em] text-accent uppercase">
-                {post.category?.name ?? 'Blog'}
-              </span>
-              <span class="text-[#D6D3CE] text-xs">·</span>
-              <span class="font-noto font-normal text-xs tracking-wider text-ink-muted">
-                {new Date(post.publishedDate).toLocaleDateString('ja-JP')}
-              </span>
-            </div>
-            <h3 class="font-mincho text-xl leading-relaxed tracking-wide text-ink group-hover:text-accent transition-colors duration-300 mb-2">
-              {post.title}
-            </h3>
-            {post.excerpt && (
-              <p class="font-noto font-normal text-sm leading-relaxed text-ink-muted line-clamp-2">
-                {post.excerpt}
-              </p>
-            )}
-            <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-3">
-              {post.readingTime}
-            </p>
-          </div>
-        </a>
-      ))}
-    </div>
-  </section>
-)}
-
-<!-- 記事が0件のとき -->
-{posts.length === 0 && (
-  <div class="max-w-6xl mx-auto px-6 lg:px-10 py-24 text-center">
-    <p class="font-mincho text-xl text-ink-muted tracking-wide">まだ記事がありません</p>
-  </div>
-)}
-
+  <Hero label="mamaxis DESIGN — Blog" />
+  <PostList posts={posts} />
 </BaseLayout>

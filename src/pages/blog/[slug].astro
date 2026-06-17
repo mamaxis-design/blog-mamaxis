@@ -2,10 +2,16 @@
 import { getPosts, getPostDetail } from '../../lib/api';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Hero from '../../components/Hero.astro';
+import AuthorBio from '../../components/AuthorBio.astro';
+import ArticleSidebar from '../../components/ArticleSidebar.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
+import { formatArticleContent } from '../../lib/article-content';
+import { imageSizes, optimizeMicroCmsImageUrl } from '../../lib/images';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-  return posts.map((post: any) => ({
+  return posts.map((post) => ({
     params: { slug: post.slug },
   }));
 }
@@ -15,195 +21,57 @@ const post = await getPostDetail(slug!);
 const allPosts = await getPosts();
 
 const relatedPosts = allPosts
-  .filter((p: any) => p.id !== post.id)
+  .filter((p) => p.id !== post.id)
   .slice(0, 5);
+
+const optimizedContent = formatArticleContent(post.content);
+const heroImageSrc = post.eyecatch
+  ? optimizeMicroCmsImageUrl(post.eyecatch.url, imageSizes.hero)
+  : undefined;
 ---
 
 <BaseLayout
   title={`${post.metaTitle || post.title} — mamaxis DESIGN`}
   description={post.metaDescription || post.excerpt}
 >
+  <Hero imageSrc={heroImageSrc} imageAlt={post.title} />
 
-  <style slot="head">
-    .article-body p { font-size: 1.125rem; line-height: 2.3; letter-spacing: 0.04em; margin-bottom: 1.75rem; color: #2a2a27; }
-    .article-body h2 { font-family: 'Shippori Mincho', serif; font-size: 1.5rem; font-weight: 500; letter-spacing: 0.06em; line-height: 1.7; margin-top: 3.5rem; margin-bottom: 1.25rem; padding-bottom: 0.6rem; border-bottom: 1px solid #A09E9A; color: #1C1C1A; }
-    .article-body h3 { font-family: 'Shippori Mincho', serif; font-size: 1.2rem; font-weight: 500; letter-spacing: 0.05em; line-height: 1.75; margin-top: 2.5rem; margin-bottom: 0.875rem; color: #1C1C1A; }
-    .article-body blockquote { border-left: 2px solid rgb(255,165,77); margin: 2rem 0; padding: 1rem 1.5rem; background: rgba(255,165,77,0.06); font-style: italic; font-size: 1rem; line-height: 2; letter-spacing: 0.04em; color: #4a4a45; }
-    .article-body ul { list-style-type: disc !important; padding-left: 1.75rem !important; margin-bottom: 1.5rem; }
-    .article-body ol { list-style-type: decimal !important; padding-left: 1.75rem !important; margin-bottom: 1.5rem; }
-    .article-body ul li { list-style-type: disc !important; display: list-item !important; }
-    .article-body ol li { list-style-type: decimal !important; display: list-item !important; }
-    .article-body li { margin-bottom: 0.75rem !important; line-height: 2.1; }
-    code { font-family: 'Courier New', monospace; font-size: 0.85em; background: rgba(255,165,77,0.1); color: #c47b1a; padding: 0.15em 0.45em; border-radius: 3px; }
-    @media (max-width: 767px) {
-      .article-body h2 { font-size: 1.25rem; margin-top: 2.5rem; }
-      .article-body h3 { font-size: 1.05rem; margin-top: 2rem; }
-    }
-    @media (max-width: 1023px) { .sidebar-sticky { position: static; } }
-  </style>
-
-<Hero
-  imageSrc={post.eyecatch ? `${post.eyecatch.url}?w=1600&q=85` : undefined}
-  imageAlt={post.title}
-/>
-
-<!-- 記事本文エリア -->
-<div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 flex flex-col lg:flex-row gap-12">
-  <main class="w-full lg:w-[68%] flex flex-col" style="min-height: 100vh;">
-
-    <!-- メタ情報 -->
-    <div class="mb-6 flex items-center gap-3 flex-wrap">
-      <span class="font-noto text-[0.7rem] tracking-widest text-accent">
-        {post.category?.name ?? 'BLOG'}
-      </span>
-      <span class="text-ink-muted text-xs">·</span>
-      <span class="font-noto text-[0.7rem] text-ink-muted">
-        {new Date(post.publishedDate).toLocaleDateString('ja-JP')}
-      </span>
-      <span class="text-ink-muted text-xs">·</span>
-      <span class="font-noto text-[0.7rem] text-ink-muted">{post.readingTime}</span>
-    </div>
-
-    <!-- タイトル -->
-    <h1 class="font-mincho text-2xl md:text-3xl leading-relaxed tracking-wide mb-4">{post.title}</h1>
-
-    <!-- タグ -->
-    {post.tags && (
-      <div class="flex gap-2 mb-8 flex-wrap">
-        {post.tags.split(',').map((tag: string) => (
-          <span class="font-noto text-[0.65rem] tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-0.5" style="border-radius:2px;">
-            {tag.trim()}
+  <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12 flex flex-col lg:flex-row gap-12">
+    <main class="w-full lg:w-[68%] flex flex-col min-h-screen">
+      <header class="reveal-block article-header">
+        <div class="mb-6 flex items-center gap-3 flex-wrap">
+          <span class="font-noto text-[0.7rem] tracking-widest text-accent">
+            {post.category?.name ?? 'BLOG'}
           </span>
-        ))}
-      </div>
-    )}
-
-    <!-- 本文 -->
-    <div class="article-body flex-1" set:html={post.content} />
-
-    <!-- Author Bio -->
-    <div class="mt-12 pt-8 border-t border-[#D6D3CE] flex flex-col sm:flex-row gap-6 items-start">
-      <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-20 h-20 rounded-full object-cover flex-shrink-0" style="object-position: center top;" />
-      <div>
-        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[200px] h-auto object-contain opacity-90 mb-2" />
-        <p class="font-noto font-normal text-sm leading-loose tracking-wide text-ink-muted mb-4">
-          Jamstackを取り入れたWebサイト制作を行っています。<br>
-Astro × Nuxt × microCMSを中心に、制作の記録や旅の断片を綴るブログです。<br>
-このブログは、デザインから構築まで全て自作しています。
-        </p>
-        <div class="flex gap-3 flex-wrap">
-          <a href="https://mamaxis-design.com/contact" target="_blank" rel="noopener noreferrer"
-            class="font-noto text-xs tracking-widest px-4 py-2 border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-200" style="border-radius:2px;">
-            お問い合わせ
-          </a>
-          <a href="https://mamaxis-design.com/" target="_blank" rel="noopener noreferrer"
-            class="font-noto text-xs tracking-widest px-4 py-2 border border-[#D6D3CE] text-ink-muted hover:border-accent hover:text-accent transition-colors duration-200" style="border-radius:2px;">
-            ウェブサイト
-          </a>
+          <span class="text-ink-muted text-xs">·</span>
+          <span class="font-noto text-[0.7rem] text-ink-muted">
+            {new Date(post.publishedDate).toLocaleDateString('ja-JP')}
+          </span>
+          <span class="text-ink-muted text-xs">·</span>
+          <span class="font-noto text-[0.7rem] text-ink-muted">{post.readingTime}</span>
         </div>
-      </div>
-    </div>
 
-  </main>
+        <h1 class="font-mincho text-2xl md:text-3xl leading-relaxed tracking-wide mb-4">{post.title}</h1>
 
-  <!-- Sidebar -->
-  <aside class="w-full lg:w-[30%] sidebar-sticky" style="top: 160px; position: sticky; align-self: flex-start;">
-    <div class="flex flex-col gap-8">
-
-      <!-- Profile -->
-      <div class="border border-[#D6D3CE] p-6" style="border-radius:2px;">
-        <span class="sb-label">Profile</span>
-        <div class="flex flex-col items-center text-center">
-          <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-16 h-16 rounded-full object-cover mb-3" style="object-position: center top;" />
-          <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[190px] h-auto mb-2 opacity-90" />
-          <p class="font-noto font-normal text-sm leading-loose tracking-wide text-ink-muted mb-4 text-left w-full">
-            Jamstackを取り入れたWebサイト制作を行っております。
-          </p>
-          <div class="flex gap-2 w-full flex-col">
-            <a href="https://mamaxis-design.com/contact" target="_blank" rel="noopener noreferrer"
-              class="font-noto text-xs tracking-widest px-3 py-2 text-center border border-accent text-accent hover:bg-accent hover:text-white transition-colors duration-200 w-full" style="border-radius:2px;">
-              お問い合わせ
-            </a>
-            <a href="https://mamaxis-design.com/" target="_blank" rel="noopener noreferrer"
-              class="font-noto text-xs tracking-widest px-3 py-2 text-center border border-[#D6D3CE] text-ink-muted hover:border-accent hover:text-accent transition-colors duration-200 w-full" style="border-radius:2px;">
-              ウェブサイト
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Latest（他の記事・最大5件） -->
-      <div class="border border-[#D6D3CE] p-5" style="border-radius:2px;">
-        <span class="sb-label">Latest</span>
-        <div class="flex flex-col divide-y divide-[#D6D3CE]">
-          {relatedPosts.slice(0, 5).map((p: any) => (
-            <a href={`/blog/${p.slug}`} class="flex gap-3 items-start group py-3 first:pt-0 last:pb-0">
-              {p.eyecatch
-                ? <img src={`${p.eyecatch.url}?w=200&q=75`} alt={p.title} class="w-14 h-10 object-cover flex-shrink-0" style="border-radius:2px;" />
-                : <div class="w-14 h-10 bg-[#ede9e2] flex-shrink-0" style="border-radius:2px;"></div>
-              }
-              <div class="flex flex-col justify-center">
-                <span class="font-noto font-medium text-xs tracking-widest text-accent block mb-0.5">
-                  {p.category?.name ?? 'BLOG'} · {p.readingTime}
-                </span>
-                <p class="font-mincho text-sm leading-relaxed text-ink group-hover:text-accent transition-colors duration-200 mb-0">
-                  {p.title}
-                </p>
-                <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-0.5 mb-0">
-                  {new Date(p.publishedAt).toLocaleDateString('ja-JP')}
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <!-- Tags -->
-      {post.tags && (
-        <div class="border border-[#D6D3CE] p-5" style="border-radius:2px;">
-          <span class="sb-label">Tags</span>
-          <div class="flex flex-wrap gap-2">
-            {post.tags.split(',').map((tag: string) => (
-              <span class="font-noto font-normal text-xs tracking-widest text-ink-muted border border-[#D6D3CE] px-2 py-1 hover:border-accent hover:text-accent transition-colors duration-200 cursor-pointer" style="border-radius:2px;">
-                {tag.trim()}
-              </span>
+        {post.tags && (
+          <div class="flex gap-2 mb-8 flex-wrap">
+            {post.tags.split(',').map((tag) => (
+              <span class="tag-chip">{tag.trim()}</span>
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </header>
 
-    </div>
-  </aside>
-</div>
+      <div class="article-body flex-1" set:html={optimizedContent} />
 
-<!-- RELATED -->
-{relatedPosts.length > 0 && (
-  <section class="border-t border-[#D6D3CE]">
-    <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12">
-      <span class="sb-label" style="display:inline-block; margin-bottom:1.5rem;">Related</span>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {relatedPosts.map((p: any) => (
-          <a href={`/blog/${p.slug}`} class="group border border-[#D6D3CE] overflow-hidden hover:border-accent transition-colors duration-300" style="border-radius:2px;">
-            {p.eyecatch
-              ? <img src={`${p.eyecatch.url}?w=600&q=80`} alt={p.title} class="w-full object-cover" style="height:160px;" />
-              : <div class="w-full bg-[#ede9e2]" style="height:160px;"></div>
-            }
-            <div class="p-5">
-              <span class="font-noto font-medium text-[0.7rem] tracking-widest text-accent block mb-2">
-                {p.category?.name ?? 'BLOG'}
-              </span>
-              <p class="font-mincho text-base leading-relaxed text-ink group-hover:text-accent transition-colors duration-300 tracking-wide">
-                {p.title}
-              </p>
-              <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-3">
-                {new Date(p.publishedDate).toLocaleDateString('ja-JP')} · {p.readingTime}
-              </p>
-            </div>
-          </a>
-        ))}
+      <div class="reveal-block">
+        <AuthorBio />
       </div>
-    </div>
-  </section>
-)}
+    </main>
 
+    <ArticleSidebar posts={relatedPosts} tags={post.tags} />
+  </div>
+
+  <RelatedPosts posts={relatedPosts} />
+  <ScrollReveal />
 </BaseLayout>

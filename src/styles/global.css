@@ -6,14 +6,23 @@
   --color-paper: #FAFAF8;
   --color-ink: #1C1C1A;
   --color-ink-muted: #6B6B65;
-  --color-rule: #a09e9a;
+  --color-rule: #D6D3CE;
 
   --font-mincho: "Shippori Mincho", serif;
   --font-cormorant: "Cormorant Garamond", serif;
   --font-noto: "Noto Sans JP", sans-serif;
+  --font-josefin: "Josefin Sans", sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink font-mincho antialiased;
+  }
+
   h1 {
     font-size: 2rem;
     font-weight: 700;
@@ -59,100 +68,527 @@
   .font-noto {
     font-weight: 400;
   }
-}
 
-.sb-label {
-  font-family: 'Noto Sans JP', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgb(255, 165, 77);
-  padding-bottom: 0.6rem;
-  margin-bottom: 0.875rem;
-  display: block;
-}
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
 
-aside .sb-label {
-  margin-bottom: 10px;
-}
+  ::-webkit-scrollbar-track {
+    @apply bg-paper;
+  }
 
-.article-body ul {
-  list-style-type: disc;
-  padding-left: 1.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.article-body ol {
-  list-style-type: decimal;
-  padding-left: 1.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.article-body li {
-  display: list-item;
-  margin-bottom: 0.75rem;
-  line-height: 2.1;
+  ::-webkit-scrollbar-thumb {
+    background: #A09E9A;
+    border-radius: 10px;
+  }
 }
 
 @layer components {
-  .article-body table {
+  .nav-item {
+    @apply relative;
+  }
+
+  .nav-item::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-[1.5px] w-0 bg-accent transition-all duration-300 ease-out;
+  }
+
+  .nav-item:hover::after {
+    @apply w-full;
+  }
+
+  .sb-label {
+    @apply mb-3.5 block border-b border-[#A09E9A] pb-2.5 font-noto text-xs font-medium tracking-[0.22em] text-accent uppercase;
+  }
+
+  aside .sb-label {
+    margin-bottom: 10px;
+  }
+
+  .card {
+    @apply border border-rule bg-white transition-all duration-300 ease-out;
+  }
+
+  .card:hover {
+    @apply -translate-y-1 border-accent;
+    box-shadow:
+      0 10px 28px rgba(28, 28, 26, 0.09),
+      0 0 0 1px rgba(255, 165, 77, 0.2);
+  }
+
+  .card-img {
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .card:hover .card-img {
+    transform: scale(1.03);
+  }
+
+  .panel-box {
+    @apply rounded-sm border border-rule;
+  }
+
+  .btn-outline-accent {
+    @apply rounded-sm border border-accent px-4 py-2 font-noto text-xs tracking-widest text-accent transition-colors duration-200 hover:bg-accent hover:text-white;
+  }
+
+  .btn-outline-muted {
+    @apply rounded-sm border border-rule px-4 py-2 font-noto text-xs tracking-widest text-ink-muted transition-colors duration-200 hover:border-accent hover:text-accent;
+  }
+
+  .tag-chip {
+    @apply cursor-pointer rounded-sm border border-rule px-2 py-1 font-noto text-xs tracking-widest text-ink-muted transition-colors duration-200 hover:border-accent hover:text-accent;
+  }
+
+  .sidebar-sticky {
+    top: 160px;
+    position: sticky;
+    align-self: flex-start;
+  }
+
+  @media (max-width: 1023px) {
+    .sidebar-sticky {
+      position: static;
+    }
+  }
+
+  /* ── 記事ページ typography ── */
+  .article-body p {
+    font-size: 1.125rem;
+    line-height: 2.3;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.75rem;
+    color: #2a2a27;
+  }
+
+  .article-body h2 {
+    @apply font-mincho text-ink;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1.7;
+    margin-top: 3.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid #A09E9A;
+  }
+
+  .article-body h3 {
+    @apply font-mincho text-ink;
+    font-size: 1.2rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    line-height: 1.75;
+    margin-top: 2.5rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .article-body code,
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.85em;
+    background: rgba(255, 165, 77, 0.1);
+    color: #c47b1a;
+    padding: 0.15em 0.45em;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 767px) {
+    .article-body h2 {
+      font-size: 1.25rem;
+      margin-top: 2.5rem;
+    }
+
+    .article-body h3 {
+      font-size: 1.05rem;
+      margin-top: 2rem;
+    }
+  }
+
+  /* ── 記事本文：画像レイアウト ── */
+  .article-body .article-figure {
+    margin-block: 2rem;
+  }
+
+  .article-body .article-figure--single {
     width: 100%;
+    max-width: 100%;
+  }
+
+  .article-body .article-img {
+    border-radius: 0.375rem;
+    border: 1px solid #f3f4f6;
+    background-color: var(--color-paper);
+  }
+
+  .article-body .article-img--single {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .article-body .article-image-group {
+    @apply my-8 grid grid-cols-1 gap-4 md:gap-5;
+  }
+
+  .article-body .article-image-group--2 {
+    @apply md:grid-cols-2;
+  }
+
+  .article-body .article-image-group--3 {
+    @apply md:grid-cols-3;
+  }
+
+  .article-body .article-figure--grid {
+    @apply flex h-full flex-col;
+  }
+
+  .article-body .article-figure--grid .article-img--grid {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .article-body .article-caption {
+    @apply mt-2.5 text-center font-noto text-xs leading-relaxed tracking-wide text-ink-muted;
+  }
+
+  .article-body .article-figure--grid .article-caption {
+    @apply mt-2;
+  }
+
+  /* ── 記事本文：通常の引用 ── */
+  .article-body blockquote:not(:has(ul)) {
+    @apply my-8 border-l-2 border-accent bg-accent-light px-6 py-4 italic text-ink-muted;
+    font-size: 1rem;
+    line-height: 2;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── 1. ベネフィットボックス（blockquote > ul） ── */
+  .article-body blockquote:has(ul) {
+    @apply relative my-10 border border-rule bg-paper px-6 pb-5 pt-11;
+    border-left: 3px solid #ffa54d;
+    font-style: normal;
+    color: var(--color-ink);
+  }
+
+  .article-body blockquote:has(ul)::before {
+    content: '🎯 得られる成果・未来';
+    @apply absolute left-5 top-3.5 font-noto text-xs font-medium tracking-widest text-accent;
+  }
+
+  .article-body blockquote:has(ul) ul {
+    @apply m-0 list-none p-0;
+  }
+
+  .article-body blockquote:has(ul) li {
+    @apply relative mb-4 font-noto text-ink last:mb-0;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 0.625rem;
+    padding-left: 0;
+    font-size: 1.0625rem;
+    line-height: 1.95;
+    letter-spacing: 0.04em;
+  }
+
+  .article-body blockquote:has(ul) li::before {
+    content: '';
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-accent;
+    margin-top: calc(0.5lh - 0.1875rem);
+  }
+
+  /* ── 通常の箇条書き（ul） ── */
+  .article-body > ul,
+  .article-body ul:not(blockquote:has(ul) ul):not(.article-body > ol ul) {
+    @apply my-9 list-none border-l-2 border-accent/40 bg-paper py-5 pr-5 pl-0;
+  }
+
+  .article-body > ul > li,
+  .article-body ul:not(blockquote:has(ul) ul):not(.article-body > ol ul) > li {
+    @apply relative mb-4 font-noto text-ink last:mb-0;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 0.625rem;
+    padding-left: 1.25rem;
+    font-size: 1.0625rem;
+    line-height: 1.95;
+    letter-spacing: 0.04em;
+    color: #2a2a27;
+  }
+
+  .article-body > ul > li::before,
+  .article-body ul:not(blockquote:has(ul) ul):not(.article-body > ol ul) > li::before {
+    content: '';
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-accent;
+    margin-top: calc(0.5lh - 0.1875rem);
+  }
+
+  /* ── 通常の番号付きリスト（ステップ以外の ol） ── */
+  .article-body ol:not(.article-body > ol) {
+    @apply my-9 list-none border border-rule bg-white py-5 pr-5 pl-0;
+    counter-reset: list-counter;
+    box-shadow: 0 1px 3px rgba(28, 28, 26, 0.04);
+  }
+
+  .article-body ol:not(.article-body > ol) > li {
+    @apply relative mb-4 font-noto text-ink last:mb-0;
+    counter-increment: list-counter;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 0.625rem;
+    padding-left: 1rem;
+    font-size: 1.0625rem;
+    line-height: 1.95;
+    letter-spacing: 0.04em;
+    color: #2a2a27;
+  }
+
+  .article-body ol:not(.article-body > ol) > li::before {
+    content: counter(list-counter);
+    @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent font-noto text-[0.6875rem] font-semibold leading-none text-white;
+    margin-top: calc(0.5lh - 0.75rem);
+  }
+
+  /* ── 2. ステップ図（番号付きリスト） ── */
+  .article-body > ol {
+    @apply my-12 list-none p-0;
+    counter-reset: step-counter;
+    --step-arrow-gap: 2.75rem;
+  }
+
+  .article-body > ol > li {
+    @apply relative mb-0 list-none rounded-sm border border-rule bg-white px-5 pb-6 pt-11;
+    counter-increment: step-counter;
+    display: block;
+    box-shadow: 0 1px 3px rgba(28, 28, 26, 0.04);
+  }
+
+  .article-body > ol > li::before {
+    content: 'STEP ' counter(step-counter, decimal-leading-zero);
+    @apply absolute left-5 top-4 font-noto font-semibold tracking-[0.2em] text-accent;
+    font-size: 0.8125rem;
+  }
+
+  .article-body > ol > li:not(:last-child) {
+    margin-bottom: var(--step-arrow-gap);
+  }
+
+  .article-body > ol > li:not(:last-child)::after {
+    content: '▼';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: calc(var(--step-arrow-gap) / 2);
+    transform: translate(-50%, -50%);
+    @apply block text-xs leading-none text-accent;
+    pointer-events: none;
+  }
+
+  .article-body > ol > li:last-child {
+    @apply mb-0;
+  }
+
+  .article-body > ol > li > p {
+    @apply mb-0 font-noto text-ink;
+    font-size: 1.0625rem;
+    line-height: 1.95;
+    letter-spacing: 0.04em;
+    color: #2a2a27;
+  }
+
+  .article-body > ol > li ul {
+    @apply my-4 list-none border-l border-accent/30 bg-paper py-4 pr-4 pl-0;
+  }
+
+  .article-body > ol > li ul li {
+    @apply relative mb-3 font-noto text-ink last:mb-0;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+  }
+
+  .article-body > ol > li ul li::before {
+    content: '';
+    @apply h-1 w-1 shrink-0 rounded-full bg-accent/70;
+    margin-top: calc(0.5lh - 0.125rem);
+  }
+
+  .article-body > ol > li ol {
+    @apply my-4 list-none border border-rule/60 bg-paper py-4 pr-4 pl-0;
+    counter-reset: nested-counter;
+  }
+
+  .article-body > ol > li ol > li {
+    @apply relative mb-3 font-noto text-ink last:mb-0;
+    counter-increment: nested-counter;
+    display: flex;
+    align-items: flex-start;
+    column-gap: 0.5rem;
+    padding-left: 0.75rem;
+    font-size: 1rem;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+  }
+
+  .article-body > ol > li ol > li::before {
+    content: counter(nested-counter) '.';
+    @apply shrink-0 font-noto font-semibold text-accent;
+    font-size: 0.875rem;
+    margin-top: calc(0.5lh - 0.4375rem);
+  }
+
+  /* ── 3. テーブル（料金表・比較表） ── */
+  .article-body .table-scroll,
+  .article-body table {
+    @apply mb-8 w-full;
     border-collapse: collapse;
-    margin-bottom: 1.5em;
+  }
+
+  .article-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .article-body table thead,
+  .article-body table tbody,
+  .article-body table tr {
+    display: table;
+    width: 100%;
+    table-layout: auto;
   }
 
   .article-body th,
   .article-body td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+    @apply border border-rule px-4 py-3.5 text-left align-middle font-noto text-[0.875rem] leading-relaxed text-ink;
+    min-width: 6rem;
   }
 
   .article-body th {
-    background-color: #f2f2f2;
-    color: #333;
-    font-weight: bold;
-    text-transform: none; /* 大文字化を解除 */
+    @apply bg-ink font-medium text-white;
+    border-color: #2a2a27;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
   }
 
-  .article-body tr:nth-child(even) {
-    background-color: transparent; /* 偶数行の背景色を透明に */
+  .article-body th:not(:last-child) {
+    border-right-color: rgba(255, 255, 255, 0.12);
   }
 
-  .article-body tr:hover {
-    background-color: transparent; /* ホバーエフェクトを透明に */
+  .article-body tbody tr:nth-child(even) td {
+    @apply bg-paper;
   }
 
-  /* 丸い角のスタイルを削除 */
-  .article-body table thead tr th:first-child {
-    border-top-left-radius: 0;
+  .article-body tbody tr:nth-child(odd) td {
+    @apply bg-white;
   }
 
-  .article-body table thead tr th:last-child {
-    border-top-right-radius: 0;
+  .article-body td:first-child {
+    @apply font-medium text-ink;
   }
 
-  .article-body table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 0;
+  .article-body table p {
+    @apply mb-0 leading-normal;
+    font-size: inherit;
   }
 
-  .article-body table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 0;
+  @media (max-width: 767px) {
+    .article-body th,
+    .article-body td {
+      @apply px-3 py-2.5 text-[0.8125rem];
+      min-width: 5rem;
+    }
+
+    .article-body blockquote:has(ul) {
+      @apply px-4 pb-4 pt-10;
+    }
+
+    .article-body blockquote:has(ul)::before {
+      @apply left-4 text-[0.6875rem];
+    }
+
+    .article-body > ol > li {
+      @apply px-4 pb-4 pt-9;
+    }
+
+    .article-body > ol > li::before {
+      @apply left-4 text-[0.625rem];
+    }
+
+  .article-body > ol {
+      --step-arrow-gap: 2rem;
+    }
   }
-
-/* src/styles/global.css の @layer components ブロック内 */
-
-.article-body table p {
-  margin-bottom: 0;
-  line-height: 1.5; /* ここを1.5に変更 */
-  font-size: 1.0em; /* フォントサイズを少し小さく */
 }
 
-/* 他のテーブル要素のフォントサイズも調整する場合 */
-.article-body table th,
-.article-body table td {
-  font-size: 0.9em; /* thとtdのフォントサイズも少し小さく */
-  padding: 15px 8px; /* パディングも少し調整 */
+@layer utilities {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .hero-fade-in {
+    animation: fade-in-up 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+    opacity: 0;
+  }
+
+  .hero-image-fade {
+    animation: fade-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+    opacity: 0;
+  }
+
+  .reveal-card,
+  .reveal-block {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease,
+      border-color 0.3s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-card.is-visible,
+  .reveal-block.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-fade-in,
+    .hero-image-fade,
+    .reveal-card,
+    .reveal-block {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
+  }
 }
-}
+

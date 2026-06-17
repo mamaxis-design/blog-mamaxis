@@ -17,8 +17,6 @@
     "@astrojs/cloudflare": "^13.2.2",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.1.9",
-    "axios": "^1.15.2",
-    "microcms-js-sdk": "^3.4.0",
     "tailwindcss": "^4.2.4"
   },
   "devDependencies": {

@@ -1,0 +1,70 @@
+---
+import type { Post } from '../types/microcms';
+import { imageSizes, optimizeMicroCmsImageUrl } from '../lib/images';
+
+interface Props {
+  posts: Post[];
+  tags?: string;
+}
+
+const { posts, tags } = Astro.props;
+---
+
+<aside class="w-full lg:w-[30%] sidebar-sticky">
+  <div class="flex flex-col gap-8">
+    <div class="panel-box p-6">
+      <span class="sb-label">Profile</span>
+      <div class="flex flex-col items-center text-center">
+        <img src="/plofile.JPG" alt="mamaxis DESIGN" class="w-16 h-16 rounded-full object-cover mb-3 object-top" />
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="w-[190px] h-auto mb-2 opacity-90" />
+        <p class="font-noto font-normal text-sm leading-loose tracking-wide text-ink-muted mb-4 text-left w-full">
+          Jamstackを取り入れたWebサイト制作を行っております。
+        </p>
+        <div class="flex gap-2 w-full flex-col">
+          <a href="https://mamaxis-design.com/contact" target="_blank" rel="noopener noreferrer" class="btn-outline-accent w-full text-center">
+            お問い合わせ
+          </a>
+          <a href="https://mamaxis-design.com/" target="_blank" rel="noopener noreferrer" class="btn-outline-muted w-full text-center">
+            ウェブサイト
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-box p-5">
+      <span class="sb-label">Latest</span>
+      <div class="flex flex-col divide-y divide-rule">
+        {posts.slice(0, 5).map((p) => (
+          <a href={`/blog/${p.slug}`} class="flex gap-3 items-start group py-3 first:pt-0 last:pb-0">
+            {p.eyecatch
+              ? <img src={optimizeMicroCmsImageUrl(p.eyecatch.url, imageSizes.thumb)} alt={p.title} class="w-14 h-10 object-cover flex-shrink-0 rounded-sm" loading="lazy" decoding="async" />
+              : <div class="w-14 h-10 bg-[#ede9e2] flex-shrink-0 rounded-sm"></div>
+            }
+            <div class="flex flex-col justify-center">
+              <span class="font-noto font-medium text-xs tracking-widest text-accent block mb-0.5">
+                {p.category?.name ?? 'BLOG'} · {p.readingTime}
+              </span>
+              <p class="font-mincho text-sm leading-relaxed text-ink group-hover:text-accent transition-colors duration-200 mb-0">
+                {p.title}
+              </p>
+              <p class="font-noto font-normal text-xs tracking-wider text-ink-muted mt-0.5 mb-0">
+                {new Date(p.publishedAt ?? p.publishedDate).toLocaleDateString('ja-JP')}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    {tags && (
+      <div class="panel-box p-5">
+        <span class="sb-label">Tags</span>
+        <div class="flex flex-wrap gap-2">
+          {tags.split(',').map((tag) => (
+            <span class="tag-chip">{tag.trim()}</span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</aside>

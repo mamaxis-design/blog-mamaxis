@@ -1,0 +1,23 @@
+---
+import type { Post } from '../types/microcms';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+{posts.length > 0 && (
+  <section class="border-t border-rule">
+    <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12">
+      <span class="sb-label reveal-block inline-block mb-6">Related</span>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {posts.map((post, index) => (
+          <PostCard post={post} index={index} variant="related" reveal />
+        ))}
+      </div>
+    </div>
+  </section>
+)}
