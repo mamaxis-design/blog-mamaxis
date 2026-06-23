@@ -448,66 +448,77 @@
   }
 
   /* ── 3. テーブル（料金表・比較表） ── */
-  .article-body .table-scroll,
-  .article-body table {
-    @apply mb-8 w-full;
-    border-collapse: collapse;
-  }
-
-  .article-body table {
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
+  .article-body .table-scroll {
+    @apply my-9 overflow-x-auto rounded-sm border border-rule bg-white;
     -webkit-overflow-scrolling: touch;
+    box-shadow: 0 1px 3px rgba(28, 28, 26, 0.04);
   }
 
-  .article-body table thead,
-  .article-body table tbody,
-  .article-body table tr {
-    display: table;
+  .article-body .table-scroll table {
     width: 100%;
+    min-width: 28rem;
+    margin-bottom: 0;
+    border-collapse: collapse;
     table-layout: auto;
   }
 
   .article-body th,
   .article-body td {
-    @apply border border-rule px-4 py-3.5 text-left align-middle font-noto text-[0.875rem] leading-relaxed text-ink;
-    min-width: 6rem;
+    @apply border border-rule px-4 py-3.5 align-top font-noto text-ink;
+    font-size: 1rem;
+    line-height: 1.75;
+    letter-spacing: 0.04em;
+    color: #2a2a27;
+    min-width: 7rem;
   }
 
-  .article-body th {
-    @apply bg-ink font-medium text-white;
-    border-color: #2a2a27;
-    letter-spacing: 0.04em;
+  /* 列ヘッダー（1行目） */
+  .article-body thead th,
+  .article-body tbody > tr:first-child > th {
+    background-color: rgba(255, 165, 77, 0.14);
+    font-weight: 600;
+    text-align: center;
     white-space: nowrap;
   }
 
-  .article-body th:not(:last-child) {
-    border-right-color: rgba(255, 255, 255, 0.12);
+  /* 行ヘッダー（2行目以降の th） */
+  .article-body tbody > tr:not(:first-child) > th {
+    background-color: var(--color-paper);
+    font-weight: 500;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .article-body tbody td {
+    background-color: #fff;
   }
 
   .article-body tbody tr:nth-child(even) td {
-    @apply bg-paper;
-  }
-
-  .article-body tbody tr:nth-child(odd) td {
-    @apply bg-white;
-  }
-
-  .article-body td:first-child {
-    @apply font-medium text-ink;
+    background-color: var(--color-paper);
   }
 
   .article-body table p {
-    @apply mb-0 leading-normal;
+    @apply mb-0;
     font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+  }
+
+  .article-body table strong {
+    font-weight: 600;
   }
 
   @media (max-width: 767px) {
+    .article-body .table-scroll table {
+      min-width: 22rem;
+    }
+
     .article-body th,
     .article-body td {
-      @apply px-3 py-2.5 text-[0.8125rem];
-      min-width: 5rem;
+      @apply px-3 py-2.5;
+      font-size: 0.9375rem;
+      min-width: 5.5rem;
     }
 
     .article-body blockquote:has(ul) {

@@ -193,5 +193,12 @@ function processImageBlocks(html: string): string {
 export function formatArticleContent(html: string): string {
   if (!html) return html;
   const optimized = optimizeMicroCmsHtml(html);
-  return processImageBlocks(optimized);
+  return wrapTables(processImageBlocks(optimized));
+}
+
+function wrapTables(html: string): string {
+  return html.replace(/<table\b[^>]*>[\s\S]*?<\/table>/gi, (table) => {
+    if (/class="[^"]*\btable-scroll\b/.test(table)) return table;
+    return `<div class="table-scroll">${table}</div>`;
+  });
 }
