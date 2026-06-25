@@ -64,6 +64,203 @@ const heroImageSrc = post.eyecatch
 
       <div class="article-body flex-1" set:html={optimizedContent} />
 
+      {post.slug === 'wordpress-vs-microcms' && (
+        <style is:global>
+          .bw{font-size:16px;line-height:1.8;color:#1C1C1A;padding:0 0 2.5rem;font-family:"Noto Sans JP",sans-serif}
+          .bw-lead{font-size:16px;color:#6B6B65;margin:0 0 2rem;line-height:1.9;border-left:3px solid #FFA54D;padding-left:16px}
+          .bw-sec-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#A09E9A;margin:3rem 0 .5rem;font-family:"Noto Sans JP",sans-serif}
+          .bw-h2{font-size:1.5rem;font-weight:500;margin:0 0 1.25rem;color:#1C1C1A;line-height:1.5;font-family:"Shippori Mincho",serif;border:none;padding:0;margin-top:0}
+          .bw-h3{font-size:17px;font-weight:500;margin:1.5rem 0 .75rem;color:#1C1C1A;font-family:"Shippori Mincho",serif}
+          .bw-row{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-bottom:.5px solid #D6D3CE}
+          .bw-row:last-child{border-bottom:none}
+          .bw-icon-wrap{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+          .bw-icon-wrap.danger{background:#F5E8DF}
+          .bw-icon-wrap.success{background:#FFF3E0}
+          .bw-icon-wrap i{font-size:19px}
+          .bw-icon-wrap.danger i{color:#7A3B1E}
+          .bw-icon-wrap.success i{color:#C17B2A}
+          .bw-row-body{flex:1}
+          .bw-row-title{font-size:1.125rem;font-weight:500;margin:0 0 5px;color:#1C1C1A;line-height:1.5}
+          .bw-row-desc{font-size:15px;color:#6B6B65;margin:0;line-height:1.75}
+          .bw-divider{border:none;border-top:.5px solid #D6D3CE;margin:2.5rem 0}
+          .bw-table{width:100%;border-collapse:collapse;font-size:14px;margin:1rem 0 1.5rem;table-layout:fixed}
+          .bw-table th{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:#A09E9A;padding:10px 14px;text-align:left;border-bottom:.5px solid #D6D3CE;background:#FAFAF8;font-family:"Noto Sans JP",sans-serif;white-space:nowrap}
+          .bw-table td{padding:12px 14px;border-bottom:.5px solid #D6D3CE;vertical-align:middle;font-size:14px;color:#1C1C1A;line-height:1.5;margin:0;background:transparent}
+          .bw-table tr:last-child td{border-bottom:none}
+          .bw-table .wp{color:#7A3B1E;font-weight:500}
+          .bw-table .mc{color:#C17B2A;font-weight:500}
+          .bw-table .neutral{color:#6B6B65}
+          .bw-badge-wp{background:#F5E8DF;color:#7A3B1E;font-size:12px;padding:3px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;font-family:"Noto Sans JP",sans-serif}
+          .bw-badge-mc{background:#FFF3E0;color:#C17B2A;font-size:12px;padding:3px 12px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;font-family:"Noto Sans JP",sans-serif}
+          .bw-bar-wrap{margin:.75rem 0 1.5rem}
+          .bw-bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+          .bw-bar-label{font-size:13px;color:#6B6B65;width:84px;flex-shrink:0;font-family:"Noto Sans JP",sans-serif}
+          .bw-bar-track{flex:1;height:30px;background:#FAFAF8;border-radius:6px;overflow:hidden;border:1px solid #D6D3CE}
+          .bw-bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding:0 12px;font-size:12px;font-weight:500;white-space:nowrap;font-family:"Noto Sans JP",sans-serif}
+          .bw-bar-fill.wp{background:#C4876A;color:#fff}
+          .bw-bar-fill.mc{background:#FFA54D;color:#3D1F00}
+          .bw-persona{background:#FAFAF8;border-radius:4px;border:1px solid #D6D3CE;padding:1.5rem;margin:1rem 0}
+          .bw-persona-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+          .bw-persona-tag{font-size:12px;font-weight:500;letter-spacing:.05em;padding:3px 12px;border-radius:20px;display:inline-block;font-family:"Noto Sans JP",sans-serif}
+          .bw-persona-tag.wp{background:#F5E8DF;color:#7A3B1E}
+          .bw-persona-tag.mc{background:#FFF3E0;color:#C17B2A}
+          .bw-persona-title{font-size:16px;font-weight:500;margin:0;color:#1C1C1A;line-height:1.5}
+          .bw-persona-sub{font-size:13px;color:#6B6B65;margin:0;line-height:1.5}
+          .bw-checklist{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+          .bw-checklist li{font-size:15px;color:#6B6B65;display:flex;gap:9px;align-items:flex-start;line-height:1.65;font-family:"Noto Sans JP",sans-serif;margin:0}
+          .bw-checklist i{flex-shrink:0;margin-top:2px;font-size:16px}
+          .bw-cta{background:#FFF8F0;border:1px solid #FFA54D;border-radius:4px;padding:1.5rem 1.75rem;margin-top:2.5rem}
+          .bw-cta p{margin:0;font-size:15px;color:#7A3B1E;line-height:1.8}
+          .bw-note{font-size:12px;color:#A09E9A;margin:-.25rem 0 1rem;font-family:"Noto Sans JP",sans-serif;line-height:1.6}
+        </style>
+      )}
+
+      {post.slug === 'wordpress-vs-microcms' && (
+        <div class="bw">
+          <p class="bw-lead">「とりあえずWordPressで」——その判断、3年後に後悔していませんか？<br />初期費用だけでなく、長期的なコストと安全性の視点から、どちらが本当にお得かを解説します。</p>
+
+          <hr class="bw-divider" />
+
+          <div class="bw-sec-label">Section 01</div>
+          <p class="bw-h2">WordPressの実態：機能は豊富、でも維持費が重い</p>
+          <div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap danger"><i class="ti ti-coin-off" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">毎月の保守費用が必ず発生する</p>
+                <p class="bw-row-desc">本体・プラグイン・テーマを放置すると、画面崩れや動作停止が起きます。制作会社への保守委託料が毎月積み重なり、長期的にはコスパが悪化します。</p>
+              </div>
+            </div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap danger"><i class="ti ti-shield-off" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">攻撃のターゲットになりやすい</p>
+                <p class="bw-row-desc">世界シェアNo.1のぶん、ハッカーの標的にもなりやすい構造です。サイト改ざん・マルウェア感染のリスクと常に戦い続ける必要があります。</p>
+              </div>
+            </div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap danger"><i class="ti ti-gauge-off" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">使わない機能が多く、表示が重い</p>
+                <p class="bw-row-desc">汎用的な設計のため、不要な処理が裏で動き続けます。ページ速度が落ちるとSEOにもユーザー体験にも悪影響が出ます。</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="bw-divider" />
+
+          <div class="bw-sec-label">Section 02</div>
+          <p class="bw-h2">microCMS：初期投資だけで、あとは維持費ほぼゼロ</p>
+          <div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap success"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">保守・更新費用がかからない</p>
+                <p class="bw-row-desc">プラグインもテーマも存在しない設計のため、毎月の保守費用はゼロ。長期運用でのコスパが圧倒的に優れています。</p>
+              </div>
+            </div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap success"><i class="ti ti-bolt" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">表示が速く、SEOにも強い</p>
+                <p class="bw-row-desc">余分な処理がないため、ページ読み込みが高速。ユーザーの離脱率を下げ、検索エンジンでの評価も上がりやすくなります。</p>
+              </div>
+            </div>
+            <div class="bw-row">
+              <div class="bw-icon-wrap success"><i class="ti ti-lock-check" aria-hidden="true"></i></div>
+              <div class="bw-row-body">
+                <p class="bw-row-title">管理画面が分離されていて安全</p>
+                <p class="bw-row-desc">管理画面とWebサイトが構造的に分離されているため、不正アクセスやプラグイン経由の攻撃リスクが大幅に低くなります。</p>
+              </div>
+            </div>
+          </div>
+
+          <hr class="bw-divider" />
+
+          <div class="bw-sec-label">Section 03</div>
+          <p class="bw-h2">一目でわかる比較表</p>
+          <table class="bw-table">
+            <thead>
+              <tr>
+                <th style="width:40%">比較項目</th>
+                <th style="width:30%"><span class="bw-badge-wp"><i class="ti ti-brand-wordpress" aria-hidden="true"></i>WordPress</span></th>
+                <th style="width:30%"><span class="bw-badge-mc"><i class="ti ti-api" aria-hidden="true"></i>microCMS</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>初期費用</td><td class="mc">比較的安い</td><td class="wp">やや高め</td></tr>
+              <tr><td>月次保守費用</td><td class="wp">毎月発生</td><td class="mc">ほぼゼロ</td></tr>
+              <tr><td>3〜5年の総コスト</td><td class="wp">高くなりがち</td><td class="mc">圧倒的に低い</td></tr>
+              <tr><td>セキュリティ</td><td class="wp">常に対策が必要</td><td class="mc">構造的に堅牢</td></tr>
+              <tr><td>表示速度</td><td class="wp">重くなりやすい</td><td class="mc">軽快・高速</td></tr>
+              <tr><td>カスタマイズ</td><td class="neutral">プラグインで拡張</td><td class="neutral">オーダーメイドで実装</td></tr>
+              <tr><td>更新作業の手間</td><td class="wp">定期的に必要</td><td class="mc">ほとんど不要</td></tr>
+            </tbody>
+          </table>
+
+          <p class="bw-h3">5年間の総コストイメージ</p>
+          <p class="bw-note">初期費用 + 保守費用（月2万円想定）を5年間積み上げた場合のイメージです。規模・内容により変わります。</p>
+          <div class="bw-bar-wrap">
+            <div class="bw-bar-row">
+              <span class="bw-bar-label">WordPress</span>
+              <div class="bw-bar-track"><div class="bw-bar-fill wp" style="width:85%">約150〜180万円</div></div>
+            </div>
+            <div class="bw-bar-row">
+              <span class="bw-bar-label">microCMS</span>
+              <div class="bw-bar-track"><div class="bw-bar-fill mc" style="width:38%">約50〜80万円</div></div>
+            </div>
+          </div>
+
+          <hr class="bw-divider" />
+
+          <div class="bw-sec-label">Section 04</div>
+          <p class="bw-h2">あなたはどちらを選ぶべき？</p>
+
+          <div class="bw-persona">
+            <div class="bw-persona-head">
+              <span class="bw-persona-tag wp">WordPress</span>
+              <div>
+                <p class="bw-persona-title">初期費用を抑えてスタートしたい方</p>
+                <p class="bw-persona-sub">まず公開してみたい・スモールスタート志向</p>
+              </div>
+            </div>
+            <ul class="bw-checklist">
+              <li><i class="ti ti-check" style="color:#7A3B1E" aria-hidden="true"></i>とにかく安く始めたい</li>
+              <li><i class="ti ti-check" style="color:#7A3B1E" aria-hidden="true"></i>毎月の保守費用が発生しても問題ない</li>
+              <li><i class="ti ti-check" style="color:#7A3B1E" aria-hidden="true"></i>既存テーマで見た目を決めたい</li>
+              <li><i class="ti ti-check" style="color:#7A3B1E" aria-hidden="true"></i>一定のセキュリティリスクを受け入れられる</li>
+            </ul>
+          </div>
+
+          <div class="bw-persona">
+            <div class="bw-persona-head">
+              <span class="bw-persona-tag mc">microCMS</span>
+              <div>
+                <p class="bw-persona-title">長期的に賢く投資したい方</p>
+                <p class="bw-persona-sub">ビジネスの成長を見据えた運用を考えている</p>
+              </div>
+            </div>
+            <ul class="bw-checklist">
+              <li><i class="ti ti-check" style="color:#C17B2A" aria-hidden="true"></i>初期費用をかけて、維持費をゼロにしたい</li>
+              <li><i class="ti ti-check" style="color:#C17B2A" aria-hidden="true"></i>セキュリティリスクをできるだけ排除したい</li>
+              <li><i class="ti ti-check" style="color:#C17B2A" aria-hidden="true"></i>表示が速く、SEOに強いサイトを作りたい</li>
+              <li><i class="ti ti-check" style="color:#C17B2A" aria-hidden="true"></i>必要な機能だけをオーダーメイドで実装したい</li>
+            </ul>
+          </div>
+
+          <hr class="bw-divider" />
+
+          <div class="bw-sec-label">まとめ</div>
+          <p class="bw-h2">「3年後・5年後の総額」で選ぶ時代へ</p>
+          <p style="color:#6B6B65;margin:0 0 1rem;font-size:16px;line-height:1.85;font-family:'Noto Sans JP',sans-serif">WordPressは初期費用が安く見えますが、毎月の保守費用・セキュリティ対策・プラグイン管理が積み重なり、長期的にはコストもリスクも膨らみます。</p>
+          <p style="color:#6B6B65;margin:0;font-size:16px;line-height:1.85;font-family:'Noto Sans JP',sans-serif">microCMSは初期投資さえ行えば維持費ほぼゼロ・高速・安全・軽量。長期的なコスパを重視するなら、Headless CMSが圧倒的に有利です。</p>
+
+          <div class="bw-cta">
+            <p><strong>どちらが自分のビジネスに合っているか迷っていますか？</strong><br />ご要望・ご予算・運用イメージをお気軽にご相談ください。最適な構成を一緒に考えます。</p>
+          </div>
+        </div>
+      )}
+
       <div class="reveal-block">
         <AuthorBio />
       </div>
