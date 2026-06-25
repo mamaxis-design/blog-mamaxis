@@ -4,17 +4,16 @@ const categories = await getCategories();
 ---
 
 <header class="bg-paper border-b-0 md:border-b md:border-rule sticky top-0 z-50 relative">
-  <div class="max-w-6xl mx-auto px-6 lg:px-10">
-    <div class="flex items-center justify-between py-4 md:py-5 border-b-0 md:border-b md:border-rule md:justify-center">
+  <div class="site-container">
+    <!-- モバイル（従来どおり） -->
+    <div class="flex items-center justify-between py-4 md:hidden">
       <a href="/blog/">
-        <img src="/logo.svg" alt="mamaxis DESIGN" width="80" height="112" class="opacity-90 object-contain hidden md:block" />
-        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="h-5 w-auto opacity-90 object-contain block md:hidden" />
+        <img src="/logo-text.svg" alt="mamaxis DESIGN" class="h-5 w-auto opacity-90 object-contain" />
       </a>
 
-      <!-- ハンバーガーボタン（モバイルのみ） -->
       <button
         id="hamburger"
-        class="md:hidden flex flex-col justify-center gap-[5px] w-6 h-6 flex-shrink-0"
+        class="flex flex-col justify-center gap-[5px] w-6 h-6 flex-shrink-0"
         aria-label="メニューを開く"
         aria-expanded="false"
       >
@@ -24,18 +23,38 @@ const categories = await getCategories();
       </button>
     </div>
 
-    <!-- PC用ナビ（md以上で表示） -->
-    <nav class="hidden md:flex justify-center gap-8 md:gap-12 py-3.5">
-      {categories.map((cat) => (
-        <a
-          href={`/blog/category/${cat.id}`}
-          class="nav-item font-josefin font-600 text-sm tracking-[0.18em] text-ink-muted pb-1 uppercase"
-        >
-          {cat.name}
-        </a>
-      ))}
-    </nav>
+    <!-- PC：1行レイアウト（縦ロゴ + カテゴリ + CTA） -->
+    <div class="hidden md:flex items-center justify-between gap-8 py-3">
+      <a href="/blog/" class="shrink-0">
+        <img
+          src="/logo.svg"
+          alt="mamaxis DESIGN"
+          width="80"
+          height="112"
+          class="max-h-[100px] w-auto opacity-90 object-contain"
+        />
+      </a>
 
+      <nav class="flex flex-1 justify-center gap-10 lg:gap-12">
+        {categories.map((cat) => (
+          <a
+            href={`/blog/category/${cat.id}`}
+            class="nav-item font-josefin font-600 text-sm tracking-[0.18em] text-ink-muted pb-1 uppercase"
+          >
+            {cat.name}
+          </a>
+        ))}
+      </nav>
+
+      <a
+        href="https://mamaxis-design.com/contact"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-outline-accent shrink-0 whitespace-nowrap"
+      >
+        お問い合わせ
+      </a>
+    </div>
   </div>
 
   <!-- モバイル用ドロワーナビ（absolute配置でヒーローを押し下げない） -->
@@ -43,7 +62,7 @@ const categories = await getCategories();
     id="mobile-nav"
     class="md:hidden absolute top-full left-0 right-0 bg-paper overflow-hidden max-h-0 transition-all duration-300 ease-in-out border-t border-rule shadow-sm z-50"
   >
-    <div class="max-w-6xl mx-auto px-6 lg:px-10">
+    <div class="site-container">
       <div class="flex flex-col divide-y divide-rule">
         {categories.map((cat) => (
           <a

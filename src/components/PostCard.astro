@@ -13,11 +13,11 @@ interface Props {
 
 const { post, index = 0, variant = 'default', reveal = false } = Astro.props;
 
-const imageHeights: Record<CardVariant, number> = {
-  default: 240,
-  compact: 180,
+const imageHeights: Partial<Record<CardVariant, number>> = {
   related: 160,
 };
+
+const useAspectRatio = variant === 'default' || variant === 'compact';
 
 const imageSize = variant === 'compact' || variant === 'related'
   ? imageSizes.cardSmall
@@ -39,7 +39,7 @@ const cardClasses = [
   class={cardClasses}
   style={reveal ? `--reveal-delay: ${revealDelay};` : undefined}
 >
-  <div class="overflow-hidden" style={`height:${imageHeights[variant]}px;`}>
+  <div class:list={['overflow-hidden w-full', useAspectRatio && 'aspect-video']} style={!useAspectRatio ? `height:${imageHeights[variant]}px;` : undefined}>
     {eyecatchSrc
       ? <img src={eyecatchSrc} alt={post.title} class="card-img w-full h-full object-cover" loading="lazy" decoding="async" />
       : <div class="w-full h-full bg-[#ede9e2]"></div>

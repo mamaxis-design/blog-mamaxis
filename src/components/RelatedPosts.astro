@@ -11,9 +11,9 @@ const { posts } = Astro.props;
 
 {posts.length > 0 && (
   <section class="border-t border-rule">
-    <div class="max-w-6xl mx-auto px-6 lg:px-10 py-12">
+    <div class="site-container py-12">
       <span class="sb-label reveal-block inline-block mb-6">Related</span>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-10 lg:gap-12">
         {posts.map((post, index) => (
           <PostCard post={post} index={index} variant="related" reveal />
         ))}
